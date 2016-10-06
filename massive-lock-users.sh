@@ -54,7 +54,6 @@ done
 else
 for i in "${users[@]}"
 do
-
   a=$(grep $i /etc/shadow | cut -d':' -f2 | cut -c1-2)
   b=$(grep $i /etc/shadow | tail -c3 | cut -c1)
     if [[ "$a" == "!!" && "$b" == "0" ]]; then
