@@ -8,20 +8,16 @@ clear
 
 function ch_pass_linux()
 {
-  passwd -l $i # set lock
-  chage -E 0 $i # set expiration immediately
-  echo -e "\tUser $i has been LOCKED successfuly\n"
-  locked_ok=$(grep $i /etc/shadow | cut -d':' -f2 | cut -d'*' -f2 | cut -c1-2)
-  locked_ok++
+  passwd -l $i > /dev/null 2>&1 # set lock
+  chage -E 0 $i > /dev/null 2>&1 # set expiration immediately
 }
 
 function ch_pass_sunos()
 {
-  passwd -l $i # just set lock
+  passwd -l $i > /dev/null 2>&1 # just set lock
 }
 
-echo -e "This script will lock the unused users from this server"
-echo -e "It may take a while..\n"
+echo -e "This script will lock ${#users[@]} unused users from this server.\n"
 
 if [[ "$isLinux" == "Linux" ]]; then
   isLinux=True
@@ -36,16 +32,27 @@ else
   exit 1
 fi
 
-echo -e "\nLocking completed, there are ${#users[@]} users in total."
-echo -e "\nList of locked users.. \n"
+echo -e "Locking and expiring password is completed,\nthere are ${#users[@]} users in total."
+echo -e "\nList of locked & expired users password.."
 
-if [[ $isLinux = True ]]; then
-  for i in "${users[@]}"
-  do
-    grep $i /etc/shadow | cut -d':' -f2 | cut -d'*' -f2 | cut -c1-2
-  done
+if [[ $isLinux = False ]]; then
+for i in "${users[@]}"
+do
+  a=$(grep $i /etc/shadow | cut -d':' -f2 | cut -d'*' -f2 | cut -c1-2)
+  if [[ "$a" == "LK" ]]; then
+    echo -e "\tUser $i is already locked."
+  fi
+done
 else
-  grep $i /etc/shadow | cut -d':' -f2 | cut -c1-2
+for i in "${users[@]}"
+do
+
+  a=$(grep $i /etc/shadow | cut -d':' -f2 | cut -c1-2)
+  b=$(grep $i /etc/shadow | tail -c 3 | cut -c1)
+    if [[ "$a" == "!!" && "$b" == "0" ]]; then
+      echo -e "\t$i"
+    fi
+done
 fi
 
 # grep $i /etc/shadow | cut -d':' -f2 | cut -d'*' -f2 | cut -c1-2
