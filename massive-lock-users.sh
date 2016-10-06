@@ -28,6 +28,13 @@ if [[ "$isLinux" == "Linux" ]]; then
 elif [[ "$isLinux" == "SunOS" ]]; then
   isLinux=False
   ch_pass_sunos
+elif [[ "$isLinux" == "Darwin" ]]; then
+  isLinux=False
+  ch_pass_sunos
+elif [[ "$isLinux" == "Windows" ]]; then
+  isLinux=False
+  echo -e "We are not supporting cygwin env."
+  exit 1
 else
   echo -e "\nSystem unrecognised!"
   exit 1
