@@ -2,7 +2,7 @@
 # riesal@gmail.com
 
 isLinux=$(uname -s)
-users=( user1 user2 user3 user4 user5 etc )
+users=( user1 user2 user3 user4 userN etc )
 
 clear
 
@@ -26,6 +26,7 @@ if [[ "$isLinux" == "Linux" ]]; then
     ch_pass_linux
   done
 elif [[ "$isLinux" == "SunOS" ]]; then
+  isLinux=False
   ch_pass_sunos
 else
   echo -e "\nSystem unrecognised!"
@@ -48,7 +49,7 @@ for i in "${users[@]}"
 do
 
   a=$(grep $i /etc/shadow | cut -d':' -f2 | cut -c1-2)
-  b=$(grep $i /etc/shadow | tail -c 3 | cut -c1)
+  b=$(grep $i /etc/shadow | tail -c3 | cut -c1)
     if [[ "$a" == "!!" && "$b" == "0" ]]; then
       echo -e "\t$i"
     fi
