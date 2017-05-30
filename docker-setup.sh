@@ -19,4 +19,4 @@ echo -e "\nRegister docker service..\n"
 sudo systemctl status docker
 sudo usermod -aG docker $(whoami)
 echo -e "\n\n"
-echo -e "\nDocker version: $(docker -v) \n"
+echo -e "\nAbout Docker: $(docker -v) \n"
