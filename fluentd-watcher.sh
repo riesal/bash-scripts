@@ -20,23 +20,23 @@ while sleep 15; do
 
   if [[ -z "$parseLog" ]]; then
     echo -e "`date +%D-%H-%M-%S` fluentd still running"
-    echo "collectd.fluentd.$HOSTNAME.status 1 `date +%s`" | nc 52.221.122.45 2003
+    echo "collectd.fluentd.$HOSTNAME.status 1 `date +%s`" | nc somehost 2003
   else
     echo -e "`date +%D-%H-%M-%S` fluentd experiece RequestEntityTooLarge!\nTrying to restart fluentd\n"
     supervisorctl restart runfluentdservice
     #/etc/init.d/td-agent restart
-    echo "collectd.fluentd.$HOSTNAME.status 0 `date +%s`" | nc 52.221.122.45 2003
+    echo "collectd.fluentd.$HOSTNAME.status 0 `date +%s`" | nc somehost 2003
   fi
 
   parseStack=$( echo "$loadLog" | grep "stacktrace")
   if [[ -z "$parseStack" ]]; then
     echo -e "`date +%D-%H-%M-%S` fluentd still running, no stacktrace"
-    echo "collectd.fluentd.$HOSTNAME.status 1 `date +%s`" | nc 52.221.122.45 2003
+    echo "collectd.fluentd.$HOSTNAME.status 1 `date +%s`" | nc somehost 2003
   else
     echo -e "`date +%D-%H-%M-%S` fluentd experiece RequestEntityTooLarge!\nTrying to restart fluentd\n"
     supervisorctl restart runfluentdservice
     #/etc/init.d/td-agent restart
-    echo "collectd.fluentd.$HOSTNAME.status 0 `date +%s`" | nc 52.221.122.45 2003
+    echo "collectd.fluentd.$HOSTNAME.status 0 `date +%s`" | nc somehost 2003
   fi
 
   is_empty=$(tail -n 1 /var/log/h20/somefile.log | grep $(date +%d/%b/%Y:%H))
