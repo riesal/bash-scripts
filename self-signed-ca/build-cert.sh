@@ -1,4 +1,5 @@
 #!/bin/bash
+# based on https://datacenteroverlords.com/2012/03/01/creating-your-own-ssl-certificate-authority/
 
 clear
 
