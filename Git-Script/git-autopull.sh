@@ -9,6 +9,7 @@ UPSTREAM=${1:-'@{u}'}
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse "$UPSTREAM")
 BASE=$(git merge-base @ "$UPSTREAM")
+# older versions of git didn't allow @ on its own, so you may have to use @{0} instead
 
 if [ $LOCAL = $REMOTE ]; then
     echo "Sudah Up-to-date. Ga perlu ngapa-ngapain"
