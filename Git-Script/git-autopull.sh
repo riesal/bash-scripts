@@ -2,7 +2,7 @@
 # auto pull from github
 # you can place it under cronjob
 # pretty much self-explanatory
-# harusnya di taruh di hooks/post-merge
+# harusnya di taruh di hooks/post-merge trus chmod
 
 pushd /home/user/project > /dev/null 2>&1
 
